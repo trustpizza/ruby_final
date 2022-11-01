@@ -10,8 +10,8 @@ b = Board.start_chess
 
 g = Game.new(
   b, 
-  Player.new(:black), 
-  Player.new(:white),
+  Player.new(:white), 
+  Player.new(:black),
   BoardRendererText
 )
 g.play
