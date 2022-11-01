@@ -1,8 +1,11 @@
+require 'json'
+require 'pry-byebug'
+
 class Game
   attr_reader :player1, :player2, :board, :renderer
   attr_accessor :current_player
 
-  def initialize(board, player1, player2, renderer_class)
+  def initialize(board, player1, player2, renderer_class, current_player = nil)
     @board = board
     @renderer = renderer_class.new(board)
     @player1 = player1
@@ -24,6 +27,7 @@ class Game
 
       take_turn
       swap_player!
+      save_game(board, player1, player2, current_player, renderer)
     end
 
     swap_player!
@@ -69,8 +73,23 @@ class Game
   def get_piece
     loop do
       loc = current_player.get_pos
-      return loc unless (board[loc].color == color && board[loc].available_moves.empty?)
+      return loc unless (board[loc].color == current_player.color && board[loc].available_moves.empty?)
       puts "Select a piece with available moves:"
+    end
+  end
+
+  def save_game(board, player1, player2, current_player,  renderer_class = renderer)
+    save_file = Hash.new
+    save_file[:board] = Marshal.dump(board)
+    save_file[:player1] = player1
+    save_file[:player2] = player2
+    save_file[:renderer_class] = renderer_class
+    save_file[:current_player] = current_player
+
+    
+    file_name = "save_file.json"
+    File.open(file_name, "w") do |item|
+      item.write(save_file.to_json)
     end
   end
 end

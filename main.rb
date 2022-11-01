@@ -4,6 +4,7 @@ require_relative './lib/board_renderer_text.rb'
 require_relative './lib/board.rb'
 require_relative './lib/player.rb'
 require_relative './lib/game.rb'
+require 'pry-byebug'
 
 b = Board.start_chess
 
@@ -13,6 +14,7 @@ g = Game.new(
   Player.new(:black),
   BoardRendererText
 )
+#g.x(b, g.player1, g.player2, g.current_player)
 g.play
 
 
