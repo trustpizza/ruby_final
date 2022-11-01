@@ -28,6 +28,10 @@ class Piece
     board.in_bounds?(location) && (board[location].color != color unless board[location].color.nil?)
   end
 
+  def friend?(location)
+    board.in_bounds?(location) && board[location].color == color
+  end
+
   def current_r
     location.first
   end
