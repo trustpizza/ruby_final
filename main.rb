@@ -4,7 +4,6 @@ require_relative './lib/board_renderer_text.rb'
 require_relative './lib/board.rb'
 require_relative './lib/player.rb'
 require_relative './lib/game.rb'
-require 'pry-byebug'
 
 b = Board.start_chess
 
