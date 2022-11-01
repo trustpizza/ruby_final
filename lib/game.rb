@@ -69,7 +69,7 @@ class Game
   def get_piece
     loop do
       loc = current_player.get_pos
-      return loc unless board[loc].available_moves.empty?
+      return loc unless (board[loc].color == color && board[loc].available_moves.empty?)
       puts "Select a piece with available moves:"
     end
   end
