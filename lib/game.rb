@@ -11,10 +11,34 @@ class Game
     @player1 = player1
     @player2 = player2
     @current_player = @player1
+
+    start_game
   end
 
   def swap_player!
     self.current_player = (current_player == player1 ? player2 : player1)
+  end
+
+  def start_game
+    puts "Type 'y' to load game:"
+    answer = gets.chomp.downcase
+
+    load_game if answer == 'y'
+    play if answer != 'y'
+  end
+
+  def load_game
+    file = File.read("save_file.json")
+    hash = JSON.parse(file)
+
+    
+    @board = Marshal.load(hash['board'])
+    @renderer = Marshal.load(hash['renderer_class'])
+    @player1 = Marshal.load(hash['player1'])
+    @player2 = Marshal.load(hash['player2'])
+    @current_player = Marshal.load(hash['current_player'])
+
+    play
   end
 
   def play
@@ -81,10 +105,10 @@ class Game
   def save_game(board, player1, player2, current_player,  renderer_class = renderer)
     save_file = Hash.new
     save_file[:board] = Marshal.dump(board)
-    save_file[:player1] = player1
-    save_file[:player2] = player2
-    save_file[:renderer_class] = renderer_class
-    save_file[:current_player] = current_player
+    save_file[:player1] = Marshal.dump(player1)
+    save_file[:player2] = Marshal.dump(player2)
+    save_file[:renderer_class] = Marshal.dump(renderer_class)
+    save_file[:current_player] = Marshal.dump(current_player)
 
     
     file_name = "save_file.json"
