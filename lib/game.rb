@@ -40,15 +40,17 @@ class Game
     # Prompt current player to enter a starting pos
     loop do
       puts "Select a piece to move: "
-      start_pos = current_player.get_pos
-      if board[start_pos].color == current_player.color
-        break
-      end
+      start_pos = get_piece
+
+      break if board[start_pos].color == current_player.color
+        
       puts "Did not select a #{current_player.color} piece."
     end
 
+
     # Prompt current player to enter an ending pos
     loop do
+      
       puts "Select a position to move to:"
       end_pos = current_player.get_pos
 
@@ -59,6 +61,16 @@ class Game
       rescue InvalidMoveError => e
         puts e.message
       end
+    end
+  end
+
+  private
+
+  def get_piece
+    loop do
+      loc = current_player.get_pos
+      return loc unless board[loc].available_moves.empty?
+      puts "Select a piece with available moves:"
     end
   end
 end
