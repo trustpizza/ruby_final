@@ -1,3 +1,4 @@
+require 'pry-byebug'
 class Game
   attr_reader :player1, :player2, :board, :renderer
   attr_accessor :current_player
