@@ -14,7 +14,6 @@ g = Game.new(
   Player.new(:black),
   BoardRendererText
 )
-#g.x(b, g.player1, g.player2, g.current_player)
-g.play
+
 
 

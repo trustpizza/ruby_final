@@ -1,13 +1,14 @@
 require 'json'
+require_relative './board_renderer_text.rb'
 require 'pry-byebug'
 
 class Game
   attr_reader :player1, :player2, :board, :renderer
   attr_accessor :current_player
 
-  def initialize(board, player1, player2, renderer_class, current_player = nil)
+  def initialize(board, player1, player2, current_player = nil)
     @board = board
-    @renderer = renderer_class.new(board)
+    @renderer = BoardRendererText.new(board)
     @player1 = player1
     @player2 = player2
     @current_player = @player1
@@ -33,7 +34,7 @@ class Game
 
     
     @board = Marshal.load(hash['board'])
-    @renderer = Marshal.load(hash['renderer_class'])
+    @renderer = BoardRendererText.new(board)
     @player1 = Marshal.load(hash['player1'])
     @player2 = Marshal.load(hash['player2'])
     @current_player = Marshal.load(hash['current_player'])
@@ -51,7 +52,7 @@ class Game
 
       take_turn
       swap_player!
-      save_game(board, player1, player2, current_player, renderer)
+      save_game(board, player1, player2, current_player)
     end
 
     swap_player!
@@ -102,12 +103,11 @@ class Game
     end
   end
 
-  def save_game(board, player1, player2, current_player,  renderer_class = renderer)
+  def save_game(board, player1, player2, current_player)
     save_file = Hash.new
     save_file[:board] = Marshal.dump(board)
     save_file[:player1] = Marshal.dump(player1)
     save_file[:player2] = Marshal.dump(player2)
-    save_file[:renderer_class] = Marshal.dump(renderer_class)
     save_file[:current_player] = Marshal.dump(current_player)
 
     
