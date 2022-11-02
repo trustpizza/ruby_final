@@ -68,7 +68,7 @@ class Game
     start_pos = nil
     # Prompt current player to enter a starting pos
     loop do
-      puts "Select a piece to move: "
+      puts "Select a piece to move by typing 'x,y' where x is the row and y is the column: "
       start_pos = get_piece
 
       break if board[start_pos].color == current_player.color
