@@ -6,7 +6,7 @@ class Player
   end
 
   def get_pos
-    gets
+    pos = gets
       .chomp
       .split(",")
       .map {|part| part.to_i}

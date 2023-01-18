@@ -21,11 +21,12 @@ class Game
   end
 
   def start_game
-    puts "Type 'y' to load game:"
-    answer = gets.chomp.downcase
+    #puts "Type 'y' to load game:"
+    #answer = gets.chomp.downcase
 
-    load_game if answer == 'y'
-    play if answer != 'y'
+    #load_game if answer == 'y'
+    #play if answer != 'y'
+    play
   end
 
   def load_game
@@ -96,10 +97,16 @@ class Game
   private
 
   def get_piece
+    # Error with null inputs
     loop do
       loc = current_player.get_pos
+      
       return loc unless (board[loc].color == current_player.color && board[loc].available_moves.empty?)
       puts "Select a piece with available moves:"
+
+      rescue 
+        puts "Error, select again" 
+        redo
     end
   end
 
