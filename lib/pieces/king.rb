@@ -2,7 +2,7 @@ class King < Piece
   include Stepable
   
   def to_s
-    color == :white ? "♚" : "♔"
+    color == :black ? "♚" : "♔"
   end
 
   def move_dirs

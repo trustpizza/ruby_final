@@ -2,7 +2,7 @@ class Rook < Piece
   include Slideable
 
   def to_s
-    color == :white ? "♜" : "♖"
+    color == :black ? "♜" : "♖"
   end
 
   def move_dirs
