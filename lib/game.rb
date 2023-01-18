@@ -84,12 +84,16 @@ class Game
       puts "Select a position to move to:"
       end_pos = current_player.get_pos
 
+      rescue
+        puts "#{board[]}"
+        redo
+
       # Move the piece
       begin
         board.move_piece(start_pos, end_pos)
         break
-      rescue InvalidMoveError => e
-        puts e.message
+      rescue 
+        redo
       end
     end
   end
@@ -100,7 +104,7 @@ class Game
     # Error with null inputs
     loop do
       loc = current_player.get_pos
-      
+
       return loc unless (board[loc].color == current_player.color && board[loc].available_moves.empty?)
       puts "Select a piece with available moves:"
 

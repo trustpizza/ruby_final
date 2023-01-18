@@ -6,9 +6,12 @@ class Player
   end
 
   def get_pos
-    pos = gets
-      .chomp
-      .split(",")
-      .map {|part| part.to_i}
+
+    pos = gets.chomp.split("")
+
+    pos[0] = pos[0].ord - 97
+    pos[1] = pos[1].to_i - 1
+    pos
+
   end
 end
