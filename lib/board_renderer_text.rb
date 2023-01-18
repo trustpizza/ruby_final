@@ -7,10 +7,10 @@ class BoardRendererText
 
   def render
     system('clear')
-    puts "  0 1 2 3 4 5 6 7"
+    puts "  1 2 3 4 5 6 6 8"
     8.times do |r|
       puts "  ---------------"
-      print "#{r} "
+      print "#{(r+97).chr} "
       8.times do |c|
         piece = board[[r, c]]
         print "#{board[[r, c]]} "
