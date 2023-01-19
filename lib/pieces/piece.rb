@@ -24,6 +24,18 @@ class Piece
     moves
   end
 
+  def readable_safe_moves
+    safe_moves = safe_moves()
+    moves = []
+
+    safe_moves.each do |move|
+      move[0] = (move[0] + 97).chr
+      move[1] = (move[1] + 1).to_s
+      moves << move.join("")
+    end
+    moves
+  end
+
   def enemy?(location)
     board.in_bounds?(location) && (board[location].color != color unless board[location].color.nil?)
   end

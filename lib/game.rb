@@ -69,10 +69,10 @@ class Game
     start_pos = nil
     # Prompt current player to enter a starting pos
     loop do
-      puts "Select a piece to move by typing 'x,y' where x is the row and y is the column: "
+      puts "Select a piece to move by typing 'LetterNumber [i.e. G1]' where G is the row and Number is the column: "
       start_pos = get_piece
 
-      break if board[start_pos].color == current_player.color
+      break if (board[start_pos].color == current_player.color) && (board[start_pos].safe_moves.any?)
         
       puts "Did not select a #{current_player.color} piece."
     end
@@ -81,12 +81,13 @@ class Game
     # Prompt current player to enter an ending pos
     loop do
       
-      puts "Select a position to move to:"
+      puts "Select a position to move to"
+      puts "Available Moves Are #{board[start_pos].readable_safe_moves}"
+      #binding.pry 
+
       end_pos = current_player.get_pos
 
-      rescue
-        puts "#{board[]}"
-        redo
+      #binding.pry
 
       # Move the piece
       begin
@@ -105,12 +106,12 @@ class Game
     loop do
       loc = current_player.get_pos
 
-      return loc unless (board[loc].color == current_player.color && board[loc].available_moves.empty?)
+      return loc unless ((board[loc].color == current_player.color) && (board[loc].safe_moves.empty?))
       puts "Select a piece with available moves:"
 
-      rescue 
-        puts "Error, select again" 
-        redo
+    rescue 
+      puts "Error, select again" 
+      redo
     end
   end
 
