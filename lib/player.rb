@@ -7,7 +7,7 @@ class Player
 
   def get_pos
     loop do
-      pos = gets.chomp.split("")
+      pos = gets.chomp.split('')
 
       redo unless pos.length == 2
 
@@ -16,4 +16,4 @@ class Player
       return pos if pos.length == 2
     end
   end
-end 
+end

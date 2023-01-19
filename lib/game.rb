@@ -1,12 +1,12 @@
 require 'json'
-require_relative './board_renderer_text.rb'
+require_relative './board_renderer_text'
 require 'pry-byebug'
 
 class Game
   attr_reader :player1, :player2, :board, :renderer
   attr_accessor :current_player
 
-  def initialize(board, player1, player2, current_player = nil)
+  def initialize(board, player1, player2, _current_player = nil)
     @board = board
     @renderer = BoardRendererText.new(board)
     @player1 = player1
@@ -21,19 +21,18 @@ class Game
   end
 
   def start_game
-    #puts "Type 'y' to load game:"
-    #answer = gets.chomp.downcase
+    puts "Type 'y' to load game or press enter to start:"
+    answer = gets.chomp.downcase
 
-    #load_game if answer == 'y'
-    #play if answer != 'y'
+    load_game if answer == 'y'
+    play if answer != 'y'
     play
   end
 
   def load_game
-    file = File.read("save_file.json")
+    file = File.read('save_file.json')
     hash = JSON.parse(file)
 
-    
     @board = Marshal.load(hash['board'])
     @renderer = BoardRendererText.new(board)
     @player1 = Marshal.load(hash['player1'])
@@ -44,12 +43,10 @@ class Game
   end
 
   def play
-    while !over?
+    until over?
       renderer.render
       puts "It's #{current_player.color}'s turn"
-      if board.in_check?(current_player.color)
-        puts "#{current_player.color} is in check."
-      end
+      puts "#{current_player.color} is in check." if board.in_check?(current_player.color)
 
       take_turn
       swap_player!
@@ -63,6 +60,7 @@ class Game
 
   def over?
     board.checkmate?(current_player.color)
+    puts "#{current_player} has lost :("
   end
 
   def take_turn
@@ -72,28 +70,23 @@ class Game
       puts "Select a piece to move by typing 'LetterNumber [i.e. G1]' where G is the row and Number is the column: "
       start_pos = get_piece
 
-      break if (board[start_pos].color == current_player.color) && (board[start_pos].safe_moves.any?)
-        
+      break if (board[start_pos].color == current_player.color) && board[start_pos].safe_moves.any?
+
       puts "Did not select a #{current_player.color} piece."
     end
 
-
     # Prompt current player to enter an ending pos
     loop do
-      
-      puts "Select a position to move to"
+      puts 'Select a position to move to'
       puts "Available Moves Are #{board[start_pos].readable_safe_moves}"
-      #binding.pry 
 
       end_pos = current_player.get_pos
-
-      #binding.pry
 
       # Move the piece
       begin
         board.move_piece(start_pos, end_pos)
         break
-      rescue 
+      rescue StandardError
         redo
       end
     end
@@ -106,25 +99,25 @@ class Game
     loop do
       loc = current_player.get_pos
 
-      return loc unless ((board[loc].color == current_player.color) && (board[loc].safe_moves.empty?))
-      puts "Select a piece with available moves:"
+      return loc unless (board[loc].color == current_player.color) && board[loc].safe_moves.empty?
 
-    rescue 
-      puts "Error, select again" 
+      puts 'Select a piece with available moves:'
+
+    rescue StandardError
+      puts 'Error, select again'
       redo
     end
   end
 
   def save_game(board, player1, player2, current_player)
-    save_file = Hash.new
+    save_file = {}
     save_file[:board] = Marshal.dump(board)
     save_file[:player1] = Marshal.dump(player1)
     save_file[:player2] = Marshal.dump(player2)
     save_file[:current_player] = Marshal.dump(current_player)
 
-    
-    file_name = "save_file.json"
-    File.open(file_name, "w") do |item|
+    file_name = 'save_file.json'
+    File.open(file_name, 'w') do |item|
       item.write(save_file.to_json)
     end
   end

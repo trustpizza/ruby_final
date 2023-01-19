@@ -1,8 +1,8 @@
 class Bishop < Piece
   include Slideable
-  
+
   def to_s
-    color == :black ? "♝" : "♗"
+    color == :black ? '♝' : '♗'
   end
 
   def move_dirs
@@ -10,7 +10,7 @@ class Bishop < Piece
       [1, 1],
       [1, -1],
       [-1, 1],
-      [-1, -1],
+      [-1, -1]
     ]
   end
 end

@@ -17,9 +17,7 @@ class Piece
       new_board = board.dup
       new_board.move_piece!(location, move)
       # if not in check, then the move is safe
-      if !new_board.in_check?(color)
-        moves << move
-      end
+      moves << move unless new_board.in_check?(color)
     end
     moves
   end
@@ -31,7 +29,7 @@ class Piece
     safe_moves.each do |move|
       move[0] = (move[0] + 97).chr
       move[1] = (move[1] + 1).to_s
-      moves << move.join("")
+      moves << move.join('')
     end
     moves
   end
